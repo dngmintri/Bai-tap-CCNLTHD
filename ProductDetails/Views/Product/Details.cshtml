@@ -1,0 +1,19 @@
+@model ProductDetails.Models.Product
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+    @* Dòng "Layout" dùng để render chung với Layout đó *@
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@* Phần render dữ liệu ra giao diện *@
+<h3>@Model.Name</h3>
+<p>Giá: @Model.Price đ</p>
+
+@if (!string.IsNullOrEmpty(Model.Description))
+{
+    @Html.Raw(Model.Description)
+}
+else
+{
+    <p>Không có mô tả cho sản phẩm này.</p>
+}
