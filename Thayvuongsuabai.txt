@@ -1,0 +1,175 @@
+Làm thêm để minh họa rõ hơn phần đã làm
+
+---
+
+## 1. Bài tập cho Chương 4: Các khái niệm cơ bản
+
+### **1.1. MVC Pattern: Trang "Thông tin Sinh viên"**
+
+* **Mục tiêu:** Hiểu rõ luồng **Model-View-Controller** cơ bản.
+* **Mô tả:**
+    1.  Tạo **Model** `Student.cs` với các thuộc tính `Id`, `Name`, `Major`.
+    2.  Tạo **Controller** `StudentController` với Action `Index()`.
+    3.  [cite_start]Trong `Index()`, tạo một danh sách các `Student` mẫu[cite: 4431].
+    4.  [cite_start]Truyền danh sách này vào **View** (`Index.cshtml`)[cite: 4442].
+    5.  [cite_start]Trong `Index.cshtml`, sử dụng **Razor** (`@model`, `@foreach`) để hiển thị danh sách sinh viên trong một bảng HTML [cite: 4449-4467].
+    6.  Cấu hình **Conventional Routing** mặc định để truy cập `/Student` hoặc `/Student/Index`.
+
+### **1.2. Razor Syntax & Layout: Hiển thị Chi tiết Sản phẩm**
+
+* **Mục tiêu:** Luyện tập cú pháp **Razor** và sử dụng **Layout**.
+* **Mô tả:**
+    1.  [cite_start]Tạo **Layout** `_Layout.cshtml` với header, footer đơn giản và `@RenderBody()` [cite: 4527-4548].
+    2.  Tạo **Model** `Product.cs` (`Id`, `Name`, `Price`, `Description`).
+    3.  Tạo **Controller** `ProductController` với Action `Details(int id)`.
+    4.  Trong `Details()`, tạo một `Product` mẫu dựa trên `id` và truyền vào View.
+    5.  Tạo **View** `Details.cshtml`, sử dụng `_Layout.cshtml`.
+    6.  [cite_start]Trong `Details.cshtml`, sử dụng cú pháp Razor (`@model`, `@Model.Name`, `@if`, `@Html.Raw` nếu có mô tả HTML) để hiển thị chi tiết sản phẩm [cite: 4489-4507, 4510].
+
+### **1.3. Blazor Component: Bộ đếm Đơn giản** (Nếu muốn demo Blazor)
+
+* **Mục tiêu:** Trải nghiệm tạo component tương tác với **Blazor**.
+* **Mô tả:**
+    1.  [cite_start]Tạo một **Blazor Component** (`Counter.razor`)[cite: 4849].
+    2.  [cite_start]Sử dụng `@page "/counter"` để định nghĩa route[cite: 4850].
+    3.  [cite_start]Trong `@code` block, khai báo một biến `private int currentCount = 0;`[cite: 4856].
+    4.  [cite_start]Tạo một phương thức `IncrementCount()` để tăng `currentCount` [cite: 4857-4860].
+    5.  [cite_start]Trong phần HTML, hiển thị giá trị `@currentCount` và tạo một button gọi `@onclick="IncrementCount"` [cite: 4853-4854].
+
+### **1.4. Dependency Injection: Service Chào hỏi Đơn giản**
+
+* **Mục tiêu:** Hiểu cách đăng ký và **inject** service cơ bản.
+* **Mô tả:**
+    1.  Tạo **interface** `IGreetingService` với method `GetGreeting()`.
+    2.  Tạo **class** `GreetingService` implement `IGreetingService`, trả về chuỗi "Hello from Service!".
+    3.  [cite_start]Trong `Program.cs`, đăng ký service: `builder.Services.AddScoped<IGreetingService, GreetingService>();`[cite: 4921].
+    4.  [cite_start]Trong `HomeController`, **inject** `IGreetingService` vào constructor[cite: 4909].
+    5.  Trong Action `Index()`, gọi `_greetingService.GetGreeting()` và truyền kết quả vào `ViewBag` hoặc `ViewData`.
+    6.  Hiển thị lời chào trong `Index.cshtml`.
+
+---
+
+## 2. Bài tập cho Chương 5: Xử lý dữ liệu và Form
+
+**Tên đồ án nhỏ: Form Đăng ký Sự kiện**
+
+* **Mục tiêu:** Luyện tập **Tag Helpers**, **Model Binding**, và **Validation** (Server + Client).
+* **Mô tả:**
+    1.  Tạo **Model** `EventRegistration.cs` với các thuộc tính như `Name` (`[Required]`, `[StringLength(50)]`), `Email` (`[Required]`, `[EmailAddress]`), `NumberOfAttendees` (`[Range(1, 10)]`).
+    2.  Tạo **Controller** `EventController` với hai Action `Register()`: một cho `[HttpGet]` (hiển thị form) và một cho `[HttpPost]` (xử lý form).
+    3.  Trong View `Register.cshtml`:
+        * [cite_start]Sử dụng **Tag Helpers** (`<form asp-action...>`, `<label asp-for...>`, `<input asp-for...>`, `<span asp-validation-for...>`, `<div asp-validation-summary...>` ) để tạo form [cite: 5051-5056, 5191, 5382].
+        * Nhớ thêm các script cho client-side validation (thường có sẵn trong template).
+    4.  Trong Action `[HttpPost] Register(EventRegistration model)`:
+        * [cite_start]Kiểm tra `ModelState.IsValid`[cite: 5026].
+        * Nếu hợp lệ, xử lý dữ liệu (ví dụ: lưu vào đâu đó hoặc chỉ hiển thị thông báo thành công qua `TempData`) và `RedirectToAction`.
+        * [cite_start]Nếu không hợp lệ, `return View(model)` để hiển thị lại form với lỗi[cite: 5028].
+
+---
+
+## 3. Bài tập cho Chương 6: Vòng đời, Middleware và State Management
+
+### **3.1. Middleware: Ghi Log Thời gian Request**
+
+* **Mục tiêu:** Hiểu cách tạo và đăng ký một **custom Middleware**.
+* **Mô tả:**
+    1.  [cite_start]Tạo class `RequestTimingMiddleware`[cite: 5524].
+    2.  Trong `InvokeAsync(HttpContext context)`, ghi lại thời gian bắt đầu (`Stopwatch`).
+    3.  [cite_start]Gọi `await _next(context);` để chuyển sang middleware tiếp theo[cite: 5535].
+    4.  Sau khi `_next` hoàn thành, dừng `Stopwatch` và ghi log (dùng `ILogger`) thời gian xử lý request cho URL hiện tại.
+    5.  [cite_start]Trong `Program.cs`, đăng ký middleware bằng `app.UseMiddleware<RequestTimingMiddleware>();` [cite: 5505] (đặt ở đầu pipeline để đo toàn bộ thời gian).
+
+### **3.2. State Management: Truyền Thông báo qua TempData**
+
+* **Mục tiêu:** Sử dụng **TempData** để hiển thị thông báo sau khi redirect.
+* **Mô tả:**
+    1.  [cite_start]Trong Action `[HttpPost] Create` (ví dụ từ bài tập Form), sau khi lưu thành công, thêm dòng: `TempData["SuccessMessage"] = "Sản phẩm đã được tạo thành công!";`[cite: 5616].
+    2.  Sau đó `return RedirectToAction("Index");`.
+    3.  [cite_start]Trong View `Index.cshtml`, thêm đoạn code để kiểm tra và hiển thị `TempData["SuccessMessage"]` (nếu có)[cite: 5621]. TempData sẽ tự động bị xóa sau khi đọc.
+
+---
+
+## 4. Bài tập cho Chương 7: Định tuyến (Routing) nâng cao
+
+**Tên đồ án nhỏ: API Sản phẩm với Attribute Routing**
+
+* **Mục tiêu:** Thực hành **Attribute Routing** và **Route Constraints**.
+* **Mô tả:**
+    1.  [cite_start]Tạo **API Controller** `ProductsApiController` kế thừa từ `ControllerBase` và đánh dấu `[ApiController]`, `[Route("api/items")]`[cite: 5658].
+    2.  [cite_start]Tạo Action `GetAll()` đánh dấu `[HttpGet]` trả về danh sách sản phẩm mẫu[cite: 5874].
+    3.  Tạo Action `GetById(int id)` đánh dấu `[HttpGet("{id:int}")]` trả về sản phẩm theo `id`. [cite_start]Constraint `:int` đảm bảo `id` phải là số nguyên[cite: 5673].
+    4.  Tạo Action `GetByCode(string code)` đánh dấu `[HttpGet("code/{code:alpha:length(3)}")]` trả về sản phẩm theo mã (`code`). [cite_start]Constraint `:alpha:length(3)` yêu cầu `code` phải là 3 ký tự chữ cái[cite: 5677].
+    5.  Test các route bằng Postman hoặc trình duyệt: `/api/items`, `/api/items/123`, `/api/items/code/XYZ`.
+
+---
+
+## 5. Bài tập cho Chương 8: Làm việc với Cơ sở dữ liệu
+
+**Tên đồ án nhỏ: CRUD Ghi chú với EF Core In-Memory**
+
+* **Mục tiêu:** Thực hành **EF Core** (DbContext, DbSet, Migrations - dù In-Memory không cần), **CRUD**, và **Repository Pattern**.
+* **Mô tả:**
+    1.  Tạo **Model** `Note.cs` (`Id`, `Title`, `Content`).
+    2.  [cite_start]Tạo `AppDbContext` kế thừa `DbContext`, khai báo `DbSet<Note> Notes` [cite: 5742-5745].
+    3.  Trong `Program.cs`, đăng ký DbContext sử dụng **In-Memory Database**: `builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("NotesDB"));` (Cần cài package `Microsoft.EntityFrameworkCore.InMemory`).
+    4.  [cite_start]Tạo **interface** `INoteRepository` với các method CRUD (GetAll, GetById, Add, Update, Delete) [cite: 5756-5763].
+    5.  [cite_start]Tạo **class** `NoteRepository` implement `INoteRepository`, inject `AppDbContext` và thực hiện các thao tác CRUD dùng LINQ và EF Core [cite: 5765-5775].
+    6.  Đăng ký `INoteRepository`/`NoteRepository` vào DI.
+    7.  Tạo `NotesController` (API hoặc MVC), inject `INoteRepository` và gọi các method của repository để xử lý request.
+
+---
+
+## 6. Bài tập cho Chương 9: Tương tác với API
+
+**Tên đồ án nhỏ: Client Gọi API Thời tiết**
+
+* **Mục tiêu:** Sử dụng **HttpClientFactory** và **HttpClient** để gọi một API bên ngoài.
+* **Mô tả:**
+    1.  Chọn một API thời tiết công khai miễn phí (ví dụ: OpenWeatherMap - cần đăng ký API key).
+    2.  [cite_start]Trong `Program.cs`, đăng ký **named HttpClient** (`builder.Services.AddHttpClient("WeatherApi", ...)`), cấu hình `BaseAddress` và có thể thêm header API key mặc định [cite: 5952-5960].
+    3.  [cite_start]Tạo một `WeatherService` class, inject `IHttpClientFactory` vào constructor [cite: 5971-5974].
+    4.  Trong `WeatherService`, viết method `GetCurrentWeatherAsync(string city)`:
+        * [cite_start]Lấy HttpClient bằng `_factory.CreateClient("WeatherApi")`[cite: 5977].
+        * [cite_start]Gửi request GET (dùng `GetAsync` hoặc `GetFromJsonAsync`) đến endpoint của API thời tiết, truyền tên thành phố và API key[cite: 5978].
+        * [cite_start]Xử lý **HttpResponseMessage**, kiểm tra `IsSuccessStatusCode`, đọc và **deserialize** JSON response thành một DTO/Model `WeatherData` [cite: 5979-5981].
+    5.  Tạo Controller/Page để gọi `WeatherService` và hiển thị kết quả.
+
+---
+
+## 7. Bài tập cho Chương 10: Bảo mật và xác thực
+
+**Tên đồ án nhỏ: Trang Admin Đơn giản**
+
+* **Mục tiêu:** Áp dụng **ASP.NET Core Identity** cơ bản và thuộc tính `[Authorize]`.
+* **Mô tả:**
+    1.  Tạo project ASP.NET Core MVC **có chọn Authentication Type là "Individual Accounts"** khi tạo project (hoặc thêm Identity thủ công sau).
+    2.  Chạy `dotnet ef database update` để tạo các bảng Identity.
+    3.  Tạo `AdminController`.
+    4.  [cite_start]Thêm thuộc tính `[Authorize]` trên toàn bộ `AdminController` hoặc trên một Action cụ thể (ví dụ `Dashboard()`)[cite: 6207].
+    5.  Tạo View `Dashboard.cshtml` đơn giản.
+    6.  Chạy ứng dụng, thử truy cập `/Admin/Dashboard`. Bạn sẽ bị chuyển hướng đến trang Login.
+    7.  Đăng ký một tài khoản, đăng nhập, sau đó truy cập lại `/Admin/Dashboard` sẽ thành công.
+    8.  [cite_start]*(Nâng cao)* Thêm `[Authorize(Roles = "Admin")]` [cite: 6208] và tìm cách gán role "Admin" cho user qua code hoặc trang quản lý (nếu có).
+
+---
+
+## 8. Bài tập cho Chương 11: Tối ưu hóa
+
+**Tên đồ án nhỏ: Cache Danh sách Sản phẩm**
+
+* **Mục tiêu:** Áp dụng **In-Memory Caching** (`IMemoryCache`).
+* **Mô tả:**
+    1.  [cite_start]Trong `Program.cs`, đăng ký `builder.Services.AddMemoryCache();`[cite: 6341].
+    2.  [cite_start]Trong `ProductController`, inject `IMemoryCache _cache` vào constructor [cite: 6348-6351].
+    3.  Trong Action `Index()` (hiển thị danh sách sản phẩm):
+        * Định nghĩa một `cacheKey` (ví dụ: `"all_products"`).
+        * [cite_start]Thử lấy dữ liệu từ cache bằng `_cache.TryGetValue(cacheKey, out List<Product> cachedProducts)`[cite: 6342].
+        * [cite_start]Nếu `TryGetValue` trả về `true`, `return View(cachedProducts)` ngay lập tức[cite: 6342].
+        * Nếu không có trong cache:
+            * Lấy danh sách sản phẩm từ DB/Service.
+            * [cite_start]Tạo `MemoryCacheEntryOptions` với thời gian hết hạn (ví dụ `SetAbsoluteExpiration(TimeSpan.FromMinutes(5))`) [cite: 6343-6347].
+            * [cite_start]Lưu danh sách vào cache bằng `_cache.Set(cacheKey, products, cacheOptions)`[cite: 6342].
+            * `return View(products)`.
+    4.  Chạy và kiểm tra: Lần đầu truy cập sẽ chậm hơn, các lần sau (trong vòng 5 phút) sẽ nhanh hơn do lấy từ cache.
+
+---

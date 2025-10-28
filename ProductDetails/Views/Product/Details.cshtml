@@ -6,14 +6,13 @@
 }
 
 @* Phần render dữ liệu ra giao diện *@
-<h3>@Model.Name</h3>
-<p>Giá: @Model.Price đ</p>
-
-@if (!string.IsNullOrEmpty(Model.Description))
+@if (Model == null)
 {
-    @Html.Raw(Model.Description)
+    <p>Không tìm thấy sản phẩm có id = @ViewData["ProductId"]</p>
 }
 else
 {
-    <p>Không có mô tả cho sản phẩm này.</p>
+    <h3>@Model.Name</h3>
+    <p>Giá: @Model.Price đ</p>
+    <p>Mô tả: @(Model.Description ?? "[Không có mô tả]")</p>
 }
