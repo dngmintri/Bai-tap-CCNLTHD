@@ -1,0 +1,10 @@
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+wwwroot/lib/
+appsettings.Development.json
+node_modules/
