@@ -1,3 +1,18 @@
+## 1. Bài tập cho Chương 4: Các khái niệm cơ bản
+
+### **1.1. MVC Pattern: Trang "Thông tin Sinh viên"**
+
+* **Mục tiêu:** Hiểu rõ luồng **Model-View-Controller** cơ bản.
+* **Mô tả:**
+    1.  Tạo **Model** `Student.cs` với các thuộc tính `Id`, `Name`, `Major`.
+    2.  Tạo **Controller** `StudentController` với Action `Index()`.
+    3.  [cite_start]Trong `Index()`, tạo một danh sách các `Student` mẫu[cite: 4431].
+    4.  [cite_start]Truyền danh sách này vào **View** (`Index.cshtml`)[cite: 4442].
+    5.  [cite_start]Trong `Index.cshtml`, sử dụng **Razor** (`@model`, `@foreach`) để hiển thị danh sách sinh viên trong một bảng HTML [cite: 4449-4467].
+    6.  Cấu hình **Conventional Routing** mặc định để truy cập `/Student` hoặc `/Student/Index`.
+
+---
+
 ## 4. Bài tập cho Chương 7: Định tuyến (Routing) nâng cao
 
 **Tên đồ án nhỏ: API Sản phẩm với Attribute Routing**
