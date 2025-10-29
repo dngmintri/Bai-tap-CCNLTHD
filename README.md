@@ -12,6 +12,24 @@
     6.  Cấu hình **Conventional Routing** mặc định để truy cập `/Student` hoặc `/Student/Index`.
 
 ---
+## 2. Bài tập cho Chương 5: Xử lý dữ liệu và Form
+
+**Tên đồ án nhỏ: Form Đăng ký Sự kiện**
+
+* **Mục tiêu:** Luyện tập **Tag Helpers**, **Model Binding**, và **Validation** (Server + Client).
+* **Mô tả:**
+    1.  Tạo **Model** `EventRegistration.cs` với các thuộc tính như `Name` (`[Required]`, `[StringLength(50)]`), `Email` (`[Required]`, `[EmailAddress]`), `NumberOfAttendees` (`[Range(1, 10)]`).
+    2.  Tạo **Controller** `EventController` với hai Action `Register()`: một cho `[HttpGet]` (hiển thị form) và một cho `[HttpPost]` (xử lý form).
+    3.  Trong View `Register.cshtml`:
+        * [cite_start]Sử dụng **Tag Helpers** (`<form asp-action...>`, `<label asp-for...>`, `<input asp-for...>`, `<span asp-validation-for...>`, `<div asp-validation-summary...>` ) để tạo form [cite: 5051-5056, 5191, 5382].
+        * Nhớ thêm các script cho client-side validation (thường có sẵn trong template).
+    4.  Trong Action `[HttpPost] Register(EventRegistration model)`:
+        * [cite_start]Kiểm tra `ModelState.IsValid`[cite: 5026].
+        * Nếu hợp lệ, xử lý dữ liệu (ví dụ: lưu vào đâu đó hoặc chỉ hiển thị thông báo thành công qua `TempData`) và `RedirectToAction`.
+        * [cite_start]Nếu không hợp lệ, `return View(model)` để hiển thị lại form với lỗi[cite: 5028].
+
+---
+
 
 ## 4. Bài tập cho Chương 7: Định tuyến (Routing) nâng cao
 
