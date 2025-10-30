@@ -60,3 +60,20 @@
     7.  Tạo `NotesController` (API hoặc MVC), inject `INoteRepository` và gọi các method của repository để xử lý request.
 
 ---
+
+
+## 6. Bài tập cho Chương 9: Tương tác với API
+
+**Tên đồ án nhỏ: Client Gọi API Thời tiết**
+
+* **Mục tiêu:** Sử dụng **HttpClientFactory** và **HttpClient** để gọi một API bên ngoài.
+* **Mô tả:**
+    1.  Chọn một API thời tiết công khai miễn phí (ví dụ: OpenWeatherMap - cần đăng ký API key).
+    2.  [cite_start]Trong `Program.cs`, đăng ký **named HttpClient** (`builder.Services.AddHttpClient("WeatherApi", ...)`), cấu hình `BaseAddress` và có thể thêm header API key mặc định [cite: 5952-5960].
+    3.  [cite_start]Tạo một `WeatherService` class, inject `IHttpClientFactory` vào constructor [cite: 5971-5974].
+    4.  Trong `WeatherService`, viết method `GetCurrentWeatherAsync(string city)`:
+        * [cite_start]Lấy HttpClient bằng `_factory.CreateClient("WeatherApi")`[cite: 5977].
+        * [cite_start]Gửi request GET (dùng `GetAsync` hoặc `GetFromJsonAsync`) đến endpoint của API thời tiết, truyền tên thành phố và API key[cite: 5978].
+        * [cite_start]Xử lý **HttpResponseMessage**, kiểm tra `IsSuccessStatusCode`, đọc và **deserialize** JSON response thành một DTO/Model `WeatherData` [cite: 5979-5981].
+    5.  Tạo Controller/Page để gọi `WeatherService` và hiển thị kết quả.
+
