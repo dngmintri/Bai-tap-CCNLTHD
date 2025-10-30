@@ -1,0 +1,34 @@
+@model EventRegistration
+
+<form asp-action="Register" method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+        <div>
+            <label asp-for="Name"></label>
+            <input asp-for="Name"/>
+            <span asp-validation-for="Name"></span>
+        </div>
+            <label asp-for="Email"></label>
+            <input asp-for="Email"/>
+            <span asp-validation-for="Email"></span>
+        <div>
+
+        <div>
+            <label asp-for ="NumberOfAttendees"></label>
+            <input asp-for ="NumberOfAttendees">
+            <span asp-validation-for="NumberOfAttendees"></span>
+        </div>
+    </div>
+
+    <button type="submit">Register</button>
+</form>
+
+@section Scripts {
+    <partial name = "_ValidationScriptsPartial" />
+}
+
+@if(TempData["Success"] != null)
+{
+    <div style="color:green">
+        @TempData["Success"]
+    </div>
+}

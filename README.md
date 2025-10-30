@@ -1,3 +1,36 @@
+## 1. Bài tập cho Chương 4: Các khái niệm cơ bản
+
+### **1.1. MVC Pattern: Trang "Thông tin Sinh viên"**
+
+* **Mục tiêu:** Hiểu rõ luồng **Model-View-Controller** cơ bản.
+* **Mô tả:**
+    1.  Tạo **Model** `Student.cs` với các thuộc tính `Id`, `Name`, `Major`.
+    2.  Tạo **Controller** `StudentController` với Action `Index()`.
+    3.  [cite_start]Trong `Index()`, tạo một danh sách các `Student` mẫu[cite: 4431].
+    4.  [cite_start]Truyền danh sách này vào **View** (`Index.cshtml`)[cite: 4442].
+    5.  [cite_start]Trong `Index.cshtml`, sử dụng **Razor** (`@model`, `@foreach`) để hiển thị danh sách sinh viên trong một bảng HTML [cite: 4449-4467].
+    6.  Cấu hình **Conventional Routing** mặc định để truy cập `/Student` hoặc `/Student/Index`.
+
+---
+## 2. Bài tập cho Chương 5: Xử lý dữ liệu và Form
+
+**Tên đồ án nhỏ: Form Đăng ký Sự kiện**
+
+* **Mục tiêu:** Luyện tập **Tag Helpers**, **Model Binding**, và **Validation** (Server + Client).
+* **Mô tả:**
+    1.  Tạo **Model** `EventRegistration.cs` với các thuộc tính như `Name` (`[Required]`, `[StringLength(50)]`), `Email` (`[Required]`, `[EmailAddress]`), `NumberOfAttendees` (`[Range(1, 10)]`).
+    2.  Tạo **Controller** `EventController` với hai Action `Register()`: một cho `[HttpGet]` (hiển thị form) và một cho `[HttpPost]` (xử lý form).
+    3.  Trong View `Register.cshtml`:
+        * [cite_start]Sử dụng **Tag Helpers** (`<form asp-action...>`, `<label asp-for...>`, `<input asp-for...>`, `<span asp-validation-for...>`, `<div asp-validation-summary...>` ) để tạo form [cite: 5051-5056, 5191, 5382].
+        * Nhớ thêm các script cho client-side validation (thường có sẵn trong template).
+    4.  Trong Action `[HttpPost] Register(EventRegistration model)`:
+        * [cite_start]Kiểm tra `ModelState.IsValid`[cite: 5026].
+        * Nếu hợp lệ, xử lý dữ liệu (ví dụ: lưu vào đâu đó hoặc chỉ hiển thị thông báo thành công qua `TempData`) và `RedirectToAction`.
+        * [cite_start]Nếu không hợp lệ, `return View(model)` để hiển thị lại form với lỗi[cite: 5028].
+
+---
+
+
 ## 4. Bài tập cho Chương 7: Định tuyến (Routing) nâng cao
 
 **Tên đồ án nhỏ: API Sản phẩm với Attribute Routing**
@@ -27,3 +60,20 @@
     7.  Tạo `NotesController` (API hoặc MVC), inject `INoteRepository` và gọi các method của repository để xử lý request.
 
 ---
+
+
+## 6. Bài tập cho Chương 9: Tương tác với API
+
+**Tên đồ án nhỏ: Client Gọi API Thời tiết**
+
+* **Mục tiêu:** Sử dụng **HttpClientFactory** và **HttpClient** để gọi một API bên ngoài.
+* **Mô tả:**
+    1.  Chọn một API thời tiết công khai miễn phí (ví dụ: OpenWeatherMap - cần đăng ký API key).
+    2.  [cite_start]Trong `Program.cs`, đăng ký **named HttpClient** (`builder.Services.AddHttpClient("WeatherApi", ...)`), cấu hình `BaseAddress` và có thể thêm header API key mặc định [cite: 5952-5960].
+    3.  [cite_start]Tạo một `WeatherService` class, inject `IHttpClientFactory` vào constructor [cite: 5971-5974].
+    4.  Trong `WeatherService`, viết method `GetCurrentWeatherAsync(string city)`:
+        * [cite_start]Lấy HttpClient bằng `_factory.CreateClient("WeatherApi")`[cite: 5977].
+        * [cite_start]Gửi request GET (dùng `GetAsync` hoặc `GetFromJsonAsync`) đến endpoint của API thời tiết, truyền tên thành phố và API key[cite: 5978].
+        * [cite_start]Xử lý **HttpResponseMessage**, kiểm tra `IsSuccessStatusCode`, đọc và **deserialize** JSON response thành một DTO/Model `WeatherData` [cite: 5979-5981].
+    5.  Tạo Controller/Page để gọi `WeatherService` và hiển thị kết quả.
+

@@ -1,0 +1,13 @@
+@using MvcPattern.Models;
+@model List<Student>
+
+<html>
+<body>
+    <ul>
+        @foreach(var s in Model)
+        {
+            <li>@s.Name</li>
+        }
+    </ul>
+</body>
+</html>

@@ -1,0 +1,9 @@
+**Giải thích cấu trúc Model:**
+Properties phải khớp tên với JSON response từ API (hoặc dùng [JsonPropertyName])
+Dùng ? (nullable) vì có thể API không trả về đầy đủ dữ liệu
+Chia thành nhiều class để dễ đọc và maintain
+
+Inject HttpClient vào constructor: HttpClientFactory sẽ tự động tạo và quản lý lifecycle của HttpClient, tránh tạo quá nhiều connection
+Dùng GetFromJsonAsync: Method tiện lợi, tự động deserialize JSON response thành object, không cần manually đọc string rồi parse
+Try-catch riêng biệt: Bắt 2 loại lỗi khác nhau (network vs parsing) để xử lý cụ thể
+Trả về null khi lỗi: Đơn giản hóa error handling cho caller
