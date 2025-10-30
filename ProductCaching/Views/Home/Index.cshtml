@@ -1,0 +1,43 @@
+﻿@model List<ProductCaching.Models.Product>
+
+@{
+    ViewData["Title"] = "Demo Cache";
+}
+
+<div class="container mt-4">
+    <h2>Demo IMemoryCache</h2>
+    
+    <div class="alert alert-info">
+        <strong>@ViewBag.Message</strong>
+        <br/>Thời gian: @DateTime.Now.ToString("HH:mm:ss")
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên sản phẩm</th>
+                <th>Giá</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>@product.Price.ToString("N0") đ</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="alert alert-secondary">
+        <strong>Hướng dẫn:</strong>
+        <ul>
+            <li>Lần 1: Nhấn F5 → Thấy "DATABASE" → Chờ 2 giây</li>
+            <li>Lần 2-N: Nhấn F5 → Thấy "CACHE" → Hiển thị ngay</li>
+            <li>Sau 5 phút: Cache hết hạn → Quay lại lần 1</li>
+        </ul>
+    </div>
+</div>

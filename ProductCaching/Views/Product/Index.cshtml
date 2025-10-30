@@ -1,0 +1,72 @@
+﻿@model List<ProductCaching.Models.Product>
+
+@{
+    ViewData["Title"] = "Demo Cache với Database";
+}
+
+<div class="container mt-4">
+    <h2>Demo IMemoryCache - Database Thật</h2>
+    
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show">
+            <strong>@TempData["Message"]</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    
+    <div class="alert @(ViewBag.Source == "Memory Cache" ? "alert-success" : "alert-danger")">
+        <h5>@ViewBag.Message</h5>
+        <p class="mb-0">
+            <strong>Nguồn:</strong> @ViewBag.Source | 
+            <strong>Số lượng:</strong> @Model.Count sản phẩm | 
+            <strong>Thời gian:</strong> @DateTime.Now.ToString("HH:mm:ss")
+        </p>
+    </div>
+
+    <div class="mb-3">
+        <a href="@Url.Action("Index")" class="btn btn-primary btn-lg">Refresh (F5)</a>
+        <a href="@Url.Action("ClearCache")" class="btn btn-danger btn-lg">Xóa Cache</a>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">Danh sách @Model.Count Sản phẩm</h5>
+        </div>
+        <div class="card-body p-0">
+            <div style="max-height: 500px; overflow-y: auto;">
+                <table class="table table-striped table-hover mb-0">
+                    <thead class="sticky-top bg-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Mô tả</th>
+                            <th class="text-end">Giá</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model)
+                        {
+                            <tr>
+                                <td>@product.Id</td>
+                                <td><strong>@product.Name</strong></td>
+                                <td>@product.Description</td>
+                                <td class="text-end">@product.Price.ToString("N0") đ</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-info mt-3">
+        <h5>Hướng dẫn Test:</h5>
+        <ul>
+            <li><strong>Lần đầu:</strong> Load từ MySQL → Chậm hơn (vài chục ms)</li>
+            <li><strong>Lần 2-N:</strong> Load từ Cache → Cực nhanh (1-5 ms)</li>
+            <li><strong>So sánh:</strong> Nhìn vào thời gian (ms) để thấy sự khác biệt</li>
+            <li><strong>Reset:</strong> Click "Xóa Cache" để test lại</li>
+        </ul>
+    </div>
+</div>
