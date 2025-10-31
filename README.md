@@ -29,7 +29,27 @@
         * [cite_start]Nếu không hợp lệ, `return View(model)` để hiển thị lại form với lỗi[cite: 5028].
 
 ---
+## 3. Bài tập cho Chương 6: Vòng đời, Middleware và State Management
 
+### **3.1. Middleware: Ghi Log Thời gian Request**
+
+* **Mục tiêu:** Hiểu cách tạo và đăng ký một **custom Middleware**.
+* **Mô tả:**
+    1.  [cite_start]Tạo class `RequestTimingMiddleware`[cite: 5524].
+    2.  Trong `InvokeAsync(HttpContext context)`, ghi lại thời gian bắt đầu (`Stopwatch`).
+    3.  [cite_start]Gọi `await _next(context);` để chuyển sang middleware tiếp theo[cite: 5535].
+    4.  Sau khi `_next` hoàn thành, dừng `Stopwatch` và ghi log (dùng `ILogger`) thời gian xử lý request cho URL hiện tại.
+    5.  [cite_start]Trong `Program.cs`, đăng ký middleware bằng `app.UseMiddleware<RequestTimingMiddleware>();` [cite: 5505] (đặt ở đầu pipeline để đo toàn bộ thời gian).
+
+### **3.2. State Management: Truyền Thông báo qua TempData**
+
+* **Mục tiêu:** Sử dụng **TempData** để hiển thị thông báo sau khi redirect.
+* **Mô tả:**
+    1.  [cite_start]Trong Action `[HttpPost] Create` (ví dụ từ bài tập Form), sau khi lưu thành công, thêm dòng: `TempData["SuccessMessage"] = "Sản phẩm đã được tạo thành công!";`[cite: 5616].
+    2.  Sau đó `return RedirectToAction("Index");`.
+    3.  [cite_start]Trong View `Index.cshtml`, thêm đoạn code để kiểm tra và hiển thị `TempData["SuccessMessage"]` (nếu có)[cite: 5621]. TempData sẽ tự động bị xóa sau khi đọc.
+
+---
 
 ## 4. Bài tập cho Chương 7: Định tuyến (Routing) nâng cao
 
